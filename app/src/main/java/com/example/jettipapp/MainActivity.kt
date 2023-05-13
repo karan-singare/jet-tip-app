@@ -125,6 +125,12 @@ fun BillForm(
     mutableStateOf(0f)
   }
 
+  val splitByState = remember {
+    mutableStateOf(1)
+  }
+
+  val range = IntRange(start = 1, endInclusive = 100)
+
   Surface(
     modifier = Modifier
       .padding(2.dp)
@@ -159,13 +165,19 @@ fun BillForm(
             modifier = Modifier.padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.End
           ) {
-            RoundIconButton(imageVector = Icons.Default.Remove, onClick = { /*TODO*/ })
+            RoundIconButton(imageVector = Icons.Default.Remove, onClick = {
+              splitByState.value = if (splitByState.value > 1)  splitByState.value - 1 else 1
+            })
             Text(
-              text = "2", modifier = Modifier
+              text = "${splitByState.value}", modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .padding(start = 9.dp, end = 9.dp)
             )
-            RoundIconButton(imageVector = Icons.Default.Add, onClick = { /*TODO*/ })
+            RoundIconButton(imageVector = Icons.Default.Add, onClick = {
+              if (splitByState.value < range.last) {
+                splitByState.value = splitByState.value + 1
+              }
+            })
           }
 
         }
